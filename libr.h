@@ -44,7 +44,7 @@ class Segment{
     Point<T> p2;
     public:
         Segment();
-        Segment(const Segment &src);
+        Segment(const Segment &);
         Segment(const Point<T> &pnt1,const Point<T> &pnt2);
         Segment& operator=(const Segment& other);
         bool operator==(const Segment &other);

@@ -10,7 +10,7 @@ int main()
     b = a;
     cout<<"a = "<<a<<" b = "<<b<<"\n";
     Point<int> c = a + b;
-    cout <<"c = a+ b = "<< c <<"\n";
+    cout <<"c = a + b = "<< c <<"\n";
     double dist = c.distance(b);
     cout<<"distance between c and b: " <<dist<<"\n";
     double lengt = a.length();
