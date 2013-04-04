@@ -8,11 +8,12 @@
     #include  <iostream>
     #define IOSTREAM
 #endif
+template <typename T> class Sigment;
 template <typename T>
 class Point{
+public:
     T x;
     T y;
-
 public:
         Point();
         Point(const Point &fpoint);
@@ -20,6 +21,7 @@ public:
         Point operator + (const Point &);
         Point operator- (const Point &);
         T operator * (const Point &);   //скалярное произведение радиус-векторов
+        Point operator * (T); // растяжение радиус - вектора
         Point& operator= (const Point&);
         bool operator== (const Point &);
         bool operator!=(const Point &);
@@ -35,10 +37,11 @@ public:
             stream>>pnt.y;
             return stream;
         }
+        friend class Sigment<T>;
 
 };
 
-template <class T>
+template <typename T>
 class Segment{
     Point<T> p1;
     Point<T> p2;
@@ -50,7 +53,10 @@ class Segment{
         bool operator==(const Segment &other);
         bool operator!=(const Segment &other);
         double length(void);
-        bool has_point(const Point<T> &pnt);
+        bool has_point(Point<T> &pnt);
+        bool intersects( Segment<T> &sgm); //есть ли пересечение
+        Segment intersection (const Segment arg, short flag); // если точка пересечения одна - возвращаемый отрезок вырожденный, flag равен 1,
+                                                              //пересечение отрезок - flag = 2, пересечение пусто flag =0
 
         friend std::ostream& operator<<(std::ostream& stream, const Segment& sgm){
             stream<<"["<<sgm.p1<<", "<<sgm.p2<<"]";
@@ -62,6 +68,7 @@ class Segment{
             return stream;
         }
 };
+
 
 
 #include "foo.h"

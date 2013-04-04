@@ -15,8 +15,13 @@ int main()
     cout<<"distance between c and b: " <<dist<<"\n";
     double lengt = a.length();
     cout << "length vector a: " << lengt<<"\n";
-    Segment<int> seg1(c,b);
+    Segment<int> seg1(b, c);
     cout<<"отрезок  c-b: " <<seg1<<'\n';
+    cout<<"Координты отрезка, с которым будем пересекать с-b: ";
+    Segment<int> seg2;
+    cin>>seg2;
+    cout<<" отрезки пересекаются(1/0): ";
+    cout<<seg1.intersects(seg2);
     return 0;
 }
 
