@@ -3,70 +3,69 @@
 
 
 //------------ТОЧКА-----------
-template <typename T>
-Point<T>::Point(): x(0), y(0) {;}
 
-template <typename T>
-Point<T>::Point(const Point &fpoint): x(fpoint.x), y(fpoint.y) {;}
+Point::Point(): x(0), y(0) {;}
 
 
-template <typename T>
-Point<T>::Point(const T & _x, const T & _y):x(_x), y(_y) {;}
+Point::Point(const Point &fpoint): x(fpoint.x), y(fpoint.y) {;}
 
-template <typename T>
-Point<T> Point<T>::operator + (const Point &a) {
+
+Point::Point(const double & _x, const double & _y):x(_x), y(_y) {;}
+
+
+Point Point::operator + (const Point &a) {
     Point b(x + a.x, y + a.y);
     return b;
 }
 
-template <typename T>
-Point<T> Point<T>::operator - (const Point &a){
+
+Point Point::operator - (const Point &a){
     Point b (x - a.x, y - a.y);
     return b;
 }
 
 // перпендикулярное скалярное произведение
-template <typename T>
-T Point<T>::operator * (const Point<T> &a) {
+
+double Point::operator * (const Point &a) {
     return (this->x) * a.y - a.x * (this->y);
 }
 
-template <typename T>
-Point<T> Point<T>::operator * (T a) {
+
+Point Point::operator * (double a) {
     Point answer;
     answer.x = (this->x) * a;
     answer.y = (this->y)*a;
     return answer;
 }
 
-template <typename T>
-Point<T>& Point<T>::operator = (const Point<T>& other) {
+
+Point& Point::operator = (const Point& other) {
     x=other.x;
     y=other.y;
     return *this;
 }
 
-template <typename T>
-bool Point<T>::operator == (const Point &other) {
+
+bool Point::operator == (const Point &other) {
     bool answer = ((x == other.x)&&(y == other.y));
     return answer;
 }
 
-template <typename T>
-bool Point<T>::operator != (const Point &other) {
+
+bool Point::operator != (const Point &other) {
     bool answer = !(*this==other);
     return answer;
 }
 
-template <typename T>
-double Point<T>::distance(const Point<T> &a){
+
+double Point::distance(const Point &a){
     double _distance;
     _distance = sqrt((this->x - a.x) * (this->x - a.x) + (this->y - a.y) * (this->y - a.y));
     return _distance;
 }
 
-template <typename T>
-double Point<T>::length(){
+
+double Point::length(){
     double _length = sqrt(x*x + y*y);
     return _length;
 }
@@ -78,48 +77,48 @@ double Point<T>::length(){
 //--------------ОТРЕЗОК--------
 
 
-template <typename T>
-Segment<T>::Segment() {;}
 
-template <typename T>
-Segment<T>::Segment(const Segment &fsegment): p1(fsegment.p1), p2(fsegment.p2) {;}
-
-template <typename T>
-Segment<T>::Segment(const Point<T> &pnt1,const Point<T> &pnt2): p1(pnt1), p2(pnt2){;}
+Segment::Segment() {;}
 
 
-template <typename T>
-Segment<T>& Segment<T>::operator=(const Segment& other) {
+Segment::Segment(const Segment &fsegment): p1(fsegment.p1), p2(fsegment.p2) {;}
+
+
+Segment::Segment(const Point &pnt1,const Point &pnt2): p1(pnt1), p2(pnt2){;}
+
+
+
+Segment& Segment::operator=(const Segment& other) {
     p1=other.p1;
     p2=other.p2;
     return *this;
 }
 
-template <typename T>
-bool Segment<T>::operator == (const Segment &other){
+
+bool Segment::operator == (const Segment &other){
     bool answer = ((p1==other.p1)&&(p2==other.p2));
     return answer;
 }
 
-template <typename T>
-bool Segment<T>::operator!=(const Segment &other) {
+
+bool Segment::operator!=(const Segment &other) {
     bool answer = !(*this==other);
     return answer;
 }
 
 
-template <typename T>
-double Segment<T>::length(void) {
-    double answer = sqrt((p1.x-p2.x)*(p1.x-p2.x) + (p1.y-p2.y)*(p1.y-p2.y));
+
+double Segment::length(void) {
+    double answer = sqrt((p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y)*(p1.y-p2.y));
     return answer;
 }
 
 
-template <typename T>
-bool Segment<T>::has_point(Point<T> &pnt) {
-     Point<T> a = p2 - p1;      // перенос в начало координат, получаем радиус-вектор (единичный направляющий)
-     Point<T> b = pnt - p1;     //перенос в начало координат, получаем радиус-вектор (единичный направляющий)
-     T scalar_pr = a * b;
+
+bool Segment::has_point(Point &pnt) {
+     Point a = p2 - p1;      // перенос в начало координат, получаем радиус-вектор (единичный направляющий)
+     Point b = pnt - p1;     //перенос в начало координат, получаем радиус-вектор (единичный направляющий)
+     double scalar_pr = a * b;
      if ((scalar_pr != 0)||(a.x * b.x < 0) || (a.y * b.y < 0)||(a.length() < b.length())) {
          return false;
      }
@@ -127,11 +126,11 @@ bool Segment<T>::has_point(Point<T> &pnt) {
 }
 
 // алгоритм подсмотрен : http://teormech.blogspot.ru/2011/07/blog-post.html
-template <typename T>
-bool Segment<T>::intersects( Segment<T> &sgm) {
-    Point <T> u (this->p2 - this->p1);
-    Point <T> v(sgm.p2 - sgm.p1);
-    Point <T> w (this->p1 - sgm.p1);
+
+bool Segment::intersects( Segment &sgm) {
+    Point u (this->p2 - this->p1);
+    Point v(sgm.p2 - sgm.p1);
+    Point w (this->p1 - sgm.p1);
     double s_1 = v * w;
     double s_2 = v * u;
     double t_1 = u * w;
@@ -147,7 +146,7 @@ bool Segment<T>::intersects( Segment<T> &sgm) {
          s = - s_1 / s_2;
          t = - t_1 / t_2;
          if (((s >= -1) && (s <= 1)) || ((t >= -1) && (t <= 1))){
-             Point<T> point(((this -> p1.x) + (this->p2.x - this->p1.x) * s), ((this -> p1.y) + (this->p2.y - this->p1.y) * s));
+             Point point(((this -> p1.x) + (this->p2.x - this->p1.x) * s), ((this -> p1.y) + (this->p2.y - this->p1.y) * s));
              if ((this->has_point(point)) && (sgm.has_point(point))){
                 return true;
              } else {
@@ -161,8 +160,8 @@ bool Segment<T>::intersects( Segment<T> &sgm) {
 
 //------ПРЯМАЯ - ПОСТРОЕНИЕ ПО ТОЧКАМ
 
-template <typename T>
-bool build_of_straight (Point<T> x1, Point<T> x2, Straight &str)
+
+bool build_of_straight (Point x1, Point x2, Straight &str)
 {
 
     str.b = -1;
@@ -188,13 +187,13 @@ bool build_of_straight (Point<T> x1, Point<T> x2, Straight &str)
     return true;
 }
 
-template <typename T>
-std::vector< Point <double> > Segment<T>::intersection (Segment sgm) {
-    std::vector< Point <T> > answer;
+
+std::vector< Point> Segment::intersection (Segment sgm) {
+    std::vector< Point > answer;
     answer.clear();
-    Point <T> u (this->p2 - this->p1);
-    Point <T> v(sgm.p2 - sgm.p1);
-    Point <T> w (this->p1 - sgm.p1);
+    Point  u (this->p2 - this->p1);
+    Point  v(sgm.p2 - sgm.p1);
+    Point  w (this->p1 - sgm.p1);
     double s_1 = v * w;
     double s_2 = v * u;
     double t_1 = u * w;
@@ -223,7 +222,7 @@ std::vector< Point <double> > Segment<T>::intersection (Segment sgm) {
          s = - s_1 / s_2;
          t = - t_1 / t_2;
          if (((s >= -1) && (s <= 1)) || ((t >= -1) && (t <= 1))){
-             Point<T> point(((this -> p1.x) + (this->p2.x - this->p1.x) * s), ((this -> p1.y) + (this->p2.y - this->p1.y) * s));
+             Point point(((this -> p1.x) + (this->p2.x - this->p1.x) * s), ((this -> p1.y) + (this->p2.y - this->p1.y) * s));
              if ((this->has_point(point)) && (sgm.has_point(point))){
                  answer.push_back(point);
                 return answer;
@@ -238,52 +237,6 @@ std::vector< Point <double> > Segment<T>::intersection (Segment sgm) {
 }
 
 // ---------- ОКРУЖНОСТЬ
-/*template <typename T>
-std::vector< Point<T> > Circle<T>::intersection(Segment<T> sgm){
-        std::vector< Point<T> > answer;
-         if (has_point(sgm.p1) && has_point(sgm.p2)) {
-             answer.clear();
-             return answer;
-         }
-         Straight str;
-         bool change_the_origin = false;
-         if (!((center.x  == 0 ) && (center.y == 0))) { // Перенос начала координат в центр окружности
-             change_the_origin = true;
-             sgm.p1 = sgm.p1 + center;
-             sgm.p2 = sgm.p2 + center;
-         }
-         if (!build_of_straight (sgm.p1, sgm.p2, str)) { // вырожденный отрезок
-             if (this->has_point(sgm.p1)) {
-                 answer.push_back(sgm.p1);
-                 return answer;
-             }
-         }
 
-         double x_0 (- (str.a * str.c) / (str.a * str.a + str.b * str.b));
-         double y_0(- (str.b * str.c) / (str.a * str.a + str.b * str.b));
-         if ((str.c * str.c) > (radius * radius * (str.a * str.a + str.b * str.b) + 0,0001)) {
-             answer.clear();
-             return answer;
-         } else {
-             double p = str.c * str.c - radius * radius * (str.a * str.a + str.b * str.b);
-             if ((-0,0001 < p) && (p < 0,0001)) {
-                 Point <double> pnt(x_0, y_0);
-                 answer.push_back(pnt);
-                 return answer;
-             } else {
-                 double d = radius * radius - str.c * str.c / (str.a * str.a + str.b * str.b);
-                 double mult = sqrt (d / (str.a * str.a + str.b * str.b));
-                 Point<double> pnt_1(x_0 + str.b * mult, x_0 - str.b * mult);
-                 Point <double> pnt_2 (y_0 - str.a * mult, y_0 + str.a * mult);
-                 if (change_the_origin) {
-                    pnt_1 = pnt_1 - center;
-                     pnt_2 = pnt_2 - center;
-                 }
-                 answer.push_back(pnt_1);
-                 answer.push_back(pnt_2);
-                 return answer;
-            }
-        }
-}*/
 
 #endif // FOO_H

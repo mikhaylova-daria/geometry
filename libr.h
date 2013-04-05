@@ -19,20 +19,22 @@ struct Straight{
     double c;
 };
 
-template <typename T> class Sigment;
-template <typename T>
+
 class Point{
+        double x;
+        double y;
 public:
-    T x;
-    T y;
-public:
+    friend class Segment;
+    friend class AFigure;
+    friend class Circle;
+    friend bool build_of_straight (Point x1, Point x2, Straight &str);
         Point();
         Point(const Point &fpoint);
-        Point(const T & _x, const T & _y);
+        Point(const double & _x, const double & _y);
         Point operator + (const Point &);
         Point operator- (const Point &);
-        T operator * (const Point &);   //скалярное произведение радиус-векторов
-        Point operator * (T); // растяжение радиус - вектора
+        double operator * (const Point &);   //скалярное произведение радиус-векторов
+        Point operator * (double); // растяжение радиус - вектора
         Point& operator= (const Point&);
         bool operator== (const Point &);
         bool operator!=(const Point &);
@@ -49,25 +51,26 @@ public:
             stream>>pnt.y;
             return stream;
         }
-        friend class Sigment<T>;
+
 };
 
-template <typename T>
+
 class Segment{
-public:
-    Point<T> p1;
-    Point<T> p2;
+    Point p1;
+    Point p2;
     public:
+        friend class AFigure;
+        friend class Circle;
         Segment();
         Segment(const Segment &);
-        Segment(const Point<T> &pnt1,const Point<T> &pnt2);
+        Segment(const Point &pnt1,const Point &pnt2);
         Segment& operator=(const Segment& other);
         bool operator==(const Segment &other);
         bool operator!=(const Segment &other);
         double length(void);
-        bool has_point(Point<T> &pnt);
-        bool intersects( Segment<T> &sgm); //есть ли пересечение
-        std::vector< Point <double> > intersection (Segment arg);
+        bool has_point(Point &pnt);
+        bool intersects( Segment &sgm); //есть ли пересечение
+        std::vector< Point > intersection (Segment arg);
 
         friend std::ostream& operator<<(std::ostream& stream, const Segment& sgm){
             stream<<"["<<sgm.p1<<", "<<sgm.p2<<"]";
@@ -78,49 +81,41 @@ public:
             stream>>sgm.p2;
             return stream;
         }
-        friend bool build_of_straight (Point<T> x1, Point<T> x2, Straight &str);
+        friend bool build_of_straight (Point x1, Point x2, Straight &str);
 };
 
-template <typename T>
-bool build_of_straight (Point <T> , Point<T> , Straight &);
 
-template <typename T>
+bool build_of_straight (Point , Point , Straight &);
+
+
 class AFigure{
 public:
     AFigure()  {;}
     ~AFigure() {;}
-    virtual bool has_point(Point<T> &pnt) = 0;
-    virtual std::vector< Point<T> > intersection(Segment<T> sgm) = 0;
+    virtual bool has_point(Point &pnt) = 0;
+    virtual std::vector< Point > intersection(Segment sgm) = 0;
 };
 
-template <typename T>
-class Circle: public AFigure<T>
+
+class Circle: public AFigure
 {
-    Point<T> center;
+    Point center;
     double radius;
 public:
-    Circle()
-    {
-        center.x=0;
-        center.y=0;
-        radius=0;
-    }
-    Circle(Point<T> _center, double _radius){
-        center=_center;
-        radius=_radius;
-    }
-    Circle(Point<T> _center, Point<T> _belonging): center(_center){
-        radius=pow((_center.x-_belonging.x)*(_center.x-_belonging.x)+(_center.y-_belonging.y)*(_center.y-_belonging.y),0.5);
+    Circle(): center(0,0), radius(0) {;}
+    Circle(Point _center, double _radius): center (_center), radius(_radius){;}
+    Circle(Point _center, Point _belonging): center(_center){
+        radius=sqrt((_center.x - _belonging.x)*(_center.x - _belonging.x)+(_center.y - _belonging.y)*(_center.y - _belonging.y));
     }
     ~Circle(){;}
 
-    virtual bool has_point(Point<T> &pnt) {
-        Segment<T> sgm(center,pnt);
+    virtual bool has_point(Point &pnt) {
+        Segment sgm(center,pnt);
         return (sgm.length() <= radius);
     }
 
-    virtual std::vector< Point<T> > intersection(Segment<T> sgm){
-         std::vector< Point<T> > answer;
+    virtual std::vector< Point > intersection(Segment sgm){
+         std::vector< Point > answer;
          if (has_point(sgm.p1) && has_point(sgm.p2)) {
              answer.clear();
              return answer;
@@ -146,14 +141,14 @@ public:
          } else {
              double p = str.c * str.c - radius * radius * (str.a * str.a + str.b * str.b);
              if ((-0,0000001 < p) && (p < 0,0000001)) {
-                 Point <double> pnt(x_0, y_0);
+                 Point  pnt(x_0, y_0);
                  answer.push_back(pnt);
                  return answer;
              } else {
                  double d = radius * radius - str.c * str.c / (str.a * str.a + str.b * str.b);
                  double mult = sqrt (d / (str.a * str.a + str.b * str.b));
-                 Point<double> pnt_1(x_0 + str.b * mult, y_0 - str.a * mult);
-                 Point <double> pnt_2 (x_0 - str.b * mult, y_0 + str.a * mult);
+                 Point pnt_1(x_0 + str.b * mult, y_0 - str.a * mult);
+                 Point pnt_2 (x_0 - str.b * mult, y_0 + str.a * mult);
                  if (change_the_origin) {
                     pnt_1 = pnt_1 + center;
                     pnt_2 = pnt_2 + center;

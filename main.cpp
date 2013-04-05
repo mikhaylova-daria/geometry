@@ -3,9 +3,9 @@ using namespace std;
 
 int main()
 {
-    Point<double> a;
-    Point<double> b;
-    Point<double> c;
+    Point a;
+    Point b;
+    Point c;
     cout<< "Координаты точки a через пробел: ";
     cin>>a;
    /* b = a;
@@ -18,13 +18,13 @@ int main()
     cout << "length vector a: " << lengt<<"\n";*/
     cout<< "Координаты точки c через пробел: ";
     cin>>c;
-    Segment<double> seg1(a, c);
+    Segment seg1(a, c);
     cout<<"отрезок  a-c: " <<seg1<<'\n';
     cout<<"Координты отрезка, с которым будем пересекать с-b: ";
-    Segment<double> seg2;
+    Segment seg2;
     cin>>seg2;
     cout<<" отрезки пересекаются: ";
-    std::vector <Point <double> > inter_0;
+    std::vector <Point > inter_0;
     inter_0 = seg1.intersection(seg2);
     if (inter_0.empty()) {
         cout << "пусто"<<'\n';
@@ -35,11 +35,11 @@ int main()
         cout<<"\n";
     }
    // cout<<seg1.intersects(seg2)<<'\n';
-    Point<double> null(0,0);
-    Circle <double> crc1;
+    Point null(0,0);
+    Circle  crc1;
     cout << "ведите координаты центра окружности и радиус через пробел: ";
     cin >> crc1;
-    std::vector< Point<double> > inter_1 = crc1.intersection(seg1);
+    std::vector< Point > inter_1 = crc1.intersection(seg1);
     cout << "пересечение с отрезком "<<seg1<< " : ";
     if (inter_1.empty()) {
         cout << "пусто"<<'\n';
