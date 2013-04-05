@@ -19,11 +19,11 @@ int main()
     cout<< "Координаты точки c через пробел: ";
     cin>>c;
     Segment<double> seg1(a, c);
-    cout<<"отрезок  c-b: " <<seg1<<'\n';
+    cout<<"отрезок  a-c: " <<seg1<<'\n';
     cout<<"Координты отрезка, с которым будем пересекать с-b: ";
     Segment<double> seg2;
     cin>>seg2;
-    cout<<" отрезки пересекаются(1/0): ";
+    cout<<" отрезки пересекаются: ";
     std::vector <Point <double> > inter_0;
     inter_0 = seg1.intersection(seg2);
     if (inter_0.empty()) {
@@ -34,7 +34,7 @@ int main()
         }
         cout<<"\n";
     }
-    cout<<seg1.intersects(seg2)<<'\n';
+   // cout<<seg1.intersects(seg2)<<'\n';
     Point<double> null(0,0);
     Circle <double> crc1;
     cout << "ведите координаты центра окружности и радиус через пробел: ";

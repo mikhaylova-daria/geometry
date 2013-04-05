@@ -89,8 +89,8 @@ class AFigure{
 public:
     AFigure()  {;}
     ~AFigure() {;}
-   // virtual bool has_point() = 0;
-   // virtual std::vector< Point<T> > intersection() = 0;
+    virtual bool has_point(Point<T> &pnt) = 0;
+    virtual std::vector< Point<T> > intersection(Segment<T> sgm) = 0;
 };
 
 template <typename T>
@@ -114,12 +114,12 @@ public:
     }
     ~Circle(){;}
 
-    bool has_point(Point<T> &pnt) {
+    virtual bool has_point(Point<T> &pnt) {
         Segment<T> sgm(center,pnt);
         return (sgm.length() <= radius);
     }
 
-    std::vector< Point<T> > intersection(Segment<T> sgm){
+    virtual std::vector< Point<T> > intersection(Segment<T> sgm){
          std::vector< Point<T> > answer;
          if (has_point(sgm.p1) && has_point(sgm.p2)) {
              answer.clear();
