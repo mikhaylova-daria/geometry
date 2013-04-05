@@ -26,7 +26,7 @@ int main()
     Circle <double> crc1;
     cout << "ведите координаты центра окружности и радиус через пробел: ";
     cin >> crc1;
-    /*std::vector< Point<double> > inter_1 = crc1.intersection(seg1);
+    std::vector< Point<double> > inter_1 = crc1.intersection(seg1);
     cout << "пересечение с отрезком "<<seg1<< " : ";
     if (inter_1.empty()) {
         cout << "пусто"<<'\n';
@@ -35,7 +35,7 @@ int main()
             cout<<inter_1[i]<<" ";
         }
         cout<<"\n";
-    }*/
+    }
 
     return 0;
 }

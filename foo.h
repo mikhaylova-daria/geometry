@@ -166,12 +166,15 @@ bool build_of_straight (Point<T> x1, Point<T> x2, Straight &str)
 {
 
     str.b = -1;
-    if ((x1.y == x2.y) && (x1.x == x2.x)){
+    if (x1 == x2){
             return false;
     }
     if ((x1.y != x2.y) && (x1.x != x2.x)){
         str.a = (x1.y - x2.y) / (x1.x - x2.x);
         str.c = x2.y - str.a * x2.x;
+        if (str.c == 0) {
+            str.c = 0;
+        }
     } else {
         if (x1.y == x2.y){
             str.a = 0;

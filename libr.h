@@ -90,8 +90,8 @@ class AFigure{
 public:
     AFigure()  {;}
     ~AFigure() {;}
-    virtual bool has_point(Point <T> a) = 0;
-    virtual std::vector< Point<T> > intersection(Segment<T>) = 0;
+   // virtual bool has_point() = 0;
+   // virtual std::vector< Point<T> > intersection() = 0;
 };
 
 template <typename T>
@@ -130,38 +130,45 @@ public:
          bool change_the_origin = false;
          if (!((center.x  == 0 ) && (center.y == 0))) { // Перенос начала координат в центр окружности
              change_the_origin = true;
-             sgm.p1 = sgm.p1 + center;
-             sgm.p2 = sgm.p2 + center;
+             sgm.p1 = sgm.p1 - center;
+             sgm.p2 = sgm.p2 - center;
          }
+         std::cout<<sgm;
          if (!build_of_straight (sgm.p1, sgm.p2, str)) { // вырожденный отрезок
              if (this->has_point(sgm.p1)) {
                  answer.push_back(sgm.p1);
                  return answer;
              }
          }
-
+         std::cout<<str.a<<" "<<str.b<<" "<<str.c<<"\n";
          double x_0 (- (str.a * str.c) / (str.a * str.a + str.b * str.b));
          double y_0(- (str.b * str.c) / (str.a * str.a + str.b * str.b));
-         if ((str.c * str.c) > (radius * radius * (str.a * str.a + str.b * str.b) + 0,0001)) {
+         if ((str.c * str.c) > (radius * radius * (str.a * str.a + str.b * str.b) + 0,0000001)) {
              answer.clear();
              return answer;
          } else {
              double p = str.c * str.c - radius * radius * (str.a * str.a + str.b * str.b);
-             if ((-0,0001 < p) && (p < 0,0001)) {
+             if ((-0,0000001 < p) && (p < 0,0000001)) {
                  Point <double> pnt(x_0, y_0);
                  answer.push_back(pnt);
                  return answer;
              } else {
                  double d = radius * radius - str.c * str.c / (str.a * str.a + str.b * str.b);
                  double mult = sqrt (d / (str.a * str.a + str.b * str.b));
-                 Point<double> pnt_1(x_0 + str.b * mult, x_0 - str.b * mult);
-                 Point <double> pnt_2 (y_0 - str.a * mult, y_0 + str.a * mult);
+                 Point<double> pnt_1(x_0 + str.b * mult, y_0 - str.a * mult);
+                 Point <double> pnt_2 (x_0 - str.b * mult, y_0 + str.a * mult);
                  if (change_the_origin) {
-                    pnt_1 = pnt_1 - center;
-                     pnt_2 = pnt_2 - center;
+                    pnt_1 = pnt_1 + center;
+                    pnt_2 = pnt_2 + center;
+                    sgm.p1 = sgm.p1 + center;
+                    sgm.p2 = sgm.p2 + center;
                  }
-                 answer.push_back(pnt_1);
-                 answer.push_back(pnt_2);
+                 if (sgm.has_point(pnt_1)) {
+                    answer.push_back(pnt_1);
+                 }
+                 if (sgm.has_point(pnt_2)) {
+                     answer.push_back(pnt_2);
+                 }
                  return answer;
             }
         }
