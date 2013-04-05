@@ -12,6 +12,10 @@
     #include <vector>
     #define VECTOR
 #endif
+#ifndef STDLIB_H
+    #include <stdlib.h>
+    #define STDLIB_H
+#endif
 
 struct Straight{
     double a;
@@ -27,6 +31,7 @@ public:
     friend class Segment;
     friend class AFigure;
     friend class Circle;
+    friend class Poly;
     friend bool build_of_straight (Point x1, Point x2, Straight &str);
         Point();
         Point(const Point &fpoint);
@@ -61,6 +66,7 @@ class Segment{
     public:
         friend class AFigure;
         friend class Circle;
+        friend class Poly;
         Segment();
         Segment(const Segment &);
         Segment(const Point &pnt1,const Point &pnt2);
@@ -97,6 +103,7 @@ public:
 };
 
 
+//  ----  ОКРУЖНОСТЬ -----
 class Circle: public AFigure
 {
     Point center;
@@ -177,7 +184,59 @@ public:
     }
 };
 
+//  ----- МНОГОУГОЛЬНИК-----
+class Poly: AFigure
+{
+    std::vector<Point> vertex;
+public :
+    Poly(){;}
+    Poly (const Poly & pl): vertex(pl.vertex){;}
+    Poly(const std::vector<Point> & _vertex):vertex(_vertex) {;}
+    ~Poly(){;}
 
+    virtual bool has_point(Point &pnt) {
+        int count_inter = 0;
+        int size = vertex.size();
+        for (int i = 0; i < size; ++i) {
+            double max;
+            int j;
+            if (i < size - 1) {
+                j = i + 1;
+            } else {
+                j = 0;
+            }
+            if (abs(vertex[i].x) >= abs(vertex[j].x)) {
+                    max = abs(vertex[i].x);
+            } else {
+                    max = abs(vertex[j].x);
+            }
+            double min;
+            if (abs(vertex[i].y) <= abs(vertex[j].y)) {
+                    min = abs(vertex[i].y);
+            } else {
+                    min = abs(vertex[j].y);
+            }
+
+            Segment sgm(vertex[i], vertex[j]);
+            Point pnt_inf (max + 1, pnt.y); // луч по положительному горизонтальному напрвлению бесконечность - точка, находящаяся заведомо правее ребра
+            Segment ray (pnt, pnt_inf);
+            std::vector<Point> inter = ray.intersection(sgm); // пересекли луч с ребром
+            // (inter.size() == 2)  игнорируем, считаем одной точкой при проверке следующего или придыдущего отрезка
+
+            if (inter.size() == 1) {  // точка пересечения должна лежать строго выше нижнейграницы ребра
+                if (inter[0].y > min){
+                    ++count_inter;
+                }
+            }
+        }
+        if ( count_inter % 2 == 1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+};
 
 
 #include "foo.h"
