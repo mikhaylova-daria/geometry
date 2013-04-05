@@ -184,6 +184,8 @@ public:
     }
 };
 
+
+
 //  ----- МНОГОУГОЛЬНИК-----
 class Poly: AFigure
 {
@@ -233,6 +235,30 @@ public :
             return false;
         } else {
             return true;
+        }
+    }
+
+
+    virtual std::vector <Point> intersection(Segment sgm) { // пересечение по отрезку игнорируется, вместо него просто две точки :(
+        std::vector<Point> answer;
+        int j;
+        int size = this->vertex.size();
+        for (int i = 0; i < size; ++i) {
+            if (i != size + 1) {
+                j = i + 1;
+            } else {
+                j = 0;
+            }
+            Segment erg(vertex[i], vertex[j]);
+            std::vector<Point> current_inter = sgm.intersection(erg);
+            if (current_inter.size() != 0) {
+                if (answer.back() != current_inter[0]) {
+                    answer.push_back(current_inter[0]);
+                }
+                if (current_inter.size() == 2) {
+                    answer.push_back(current_inter[1]);
+                }
+            }
         }
     }
 
