@@ -67,8 +67,7 @@ public:
         double length(void);
         bool has_point(Point<T> &pnt);
         bool intersects( Segment<T> &sgm); //есть ли пересечение
-        Segment intersection (const Segment arg, short flag); // если точка пересечения одна - возвращаемый отрезок вырожденный, flag равен 1,
-                                                              //пересечение отрезок - flag = 2, пересечение пусто flag =0
+        std::vector< Point <double> > intersection (Segment arg);
 
         friend std::ostream& operator<<(std::ostream& stream, const Segment& sgm){
             stream<<"["<<sgm.p1<<", "<<sgm.p2<<"]";
@@ -133,14 +132,12 @@ public:
              sgm.p1 = sgm.p1 - center;
              sgm.p2 = sgm.p2 - center;
          }
-         std::cout<<sgm;
          if (!build_of_straight (sgm.p1, sgm.p2, str)) { // вырожденный отрезок
              if (this->has_point(sgm.p1)) {
                  answer.push_back(sgm.p1);
                  return answer;
              }
          }
-         std::cout<<str.a<<" "<<str.b<<" "<<str.c<<"\n";
          double x_0 (- (str.a * str.c) / (str.a * str.a + str.b * str.b));
          double y_0(- (str.b * str.c) / (str.a * str.a + str.b * str.b));
          if ((str.c * str.c) > (radius * radius * (str.a * str.a + str.b * str.b) + 0,0000001)) {

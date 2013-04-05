@@ -188,6 +188,54 @@ bool build_of_straight (Point<T> x1, Point<T> x2, Straight &str)
     return true;
 }
 
+template <typename T>
+std::vector< Point <double> > Segment<T>::intersection (Segment sgm) {
+    std::vector< Point <T> > answer;
+    answer.clear();
+    Point <T> u (this->p2 - this->p1);
+    Point <T> v(sgm.p2 - sgm.p1);
+    Point <T> w (this->p1 - sgm.p1);
+    double s_1 = v * w;
+    double s_2 = v * u;
+    double t_1 = u * w;
+    double t_2 = u * v;
+    double s, t;
+     if (s_2 == 0)  {  // отрезки лежат на параллельных прямых, или на одной прямой
+         if ((this->has_point(sgm.p1)) || (this->has_point(sgm.p2)) || (sgm.has_point (this->p1)) || (sgm.has_point(this -> p2))){ //если пересекаются
+            if (this->has_point(sgm.p1)){
+                answer.push_back(sgm.p1);
+            }
+            if ((this->p1 != sgm.p1) && (sgm.has_point (this->p1))) {
+                answer.push_back(this-> p1);
+            }
+            if ((this->p2 != sgm.p1) && (this->p2 != this->p1) && (sgm.has_point (this->p2))) {
+                answer.push_back(this-> p2);
+            }
+            if((this->p2 != sgm.p2) && (this->p1 != sgm.p2) && (sgm.p1 != sgm.p2) && (sgm.has_point (this->p2))){
+                answer.push_back (sgm.p2);
+            }
+
+            return answer;
+         } else {
+             return answer;
+         }
+     } else {
+         s = - s_1 / s_2;
+         t = - t_1 / t_2;
+         if (((s >= -1) && (s <= 1)) || ((t >= -1) && (t <= 1))){
+             Point<T> point(((this -> p1.x) + (this->p2.x - this->p1.x) * s), ((this -> p1.y) + (this->p2.y - this->p1.y) * s));
+             if ((this->has_point(point)) && (sgm.has_point(point))){
+                 answer.push_back(point);
+                return answer;
+             } else {
+                 return answer;
+             }
+         } else {
+             return answer;
+         }
+     }
+
+}
 
 // ---------- ОКРУЖНОСТЬ
 /*template <typename T>
