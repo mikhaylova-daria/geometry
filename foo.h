@@ -113,8 +113,8 @@ double Segment::length(void) {
     return answer;
 }
 
-
-
+/*
+//   не работает с приближениями :(
 bool Segment::has_point(Point &pnt) {
      Point a = p2 - p1;      // перенос в начало координат, получаем радиус-вектор (единичный направляющий)
      Point b = pnt - p1;     //перенос в начало координат, получаем радиус-вектор (единичный направляющий)
@@ -124,6 +124,20 @@ bool Segment::has_point(Point &pnt) {
      }
      return true;
 }
+*/
+// через проекции
+bool Segment::has_point (Point &pnt) {
+    if (((pnt.x <= this->p1.x) && (pnt.x >= this->p2.x)) || ((pnt.x >= this->p1.x) && (pnt.x <= this->p2.x))) {
+            if (((pnt.y <= this->p1.y) && (pnt.y >= this->p2.y)) || ((pnt.y >= this->p1.y) && (pnt.y <= this->p2.y))) {
+                return true;
+            } else {
+                return false;
+            }
+    } else {
+        return false;
+    }
+}
+
 
 // алгоритм подсмотрен : http://teormech.blogspot.ru/2011/07/blog-post.html
 
@@ -144,8 +158,8 @@ bool Segment::intersects( Segment &sgm) {
          }
      } else {
          s = - s_1 / s_2;
-         t = - t_1 / t_2;
-         if (((s >= -1) && (s <= 1)) || ((t >= -1) && (t <= 1))){
+         t =  t_1 / t_2;
+         if (((s >= -1) && (s <= 1)) && ((t >= -1) && (t <= 1))){
              Point point(((this -> p1.x) + (this->p2.x - this->p1.x) * s), ((this -> p1.y) + (this->p2.y - this->p1.y) * s));
              if ((this->has_point(point)) && (sgm.has_point(point))){
                 return true;

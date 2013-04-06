@@ -220,7 +220,7 @@ public :
             }
 
             Segment sgm(vertex[i], vertex[j]);
-            Point pnt_inf (max + 1, pnt.y); // луч по положительному горизонтальному напрвлению бесконечность - точка, находящаяся заведомо правее ребра
+            Point pnt_inf (pnt.x + abs(max) + 1, pnt.y); // луч по положительному горизонтальному напрвлению бесконечность - точка, находящаяся заведомо правее ребра
             Segment ray (pnt, pnt_inf);
             std::vector<Point> inter = ray.intersection(sgm); // пересекли луч с ребром
             // (inter.size() == 2)  игнорируем, считаем одной точкой при проверке следующего или придыдущего отрезка
@@ -232,9 +232,9 @@ public :
             }
         }
         if ( count_inter % 2 == 1) {
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -260,8 +260,8 @@ public :
                 }
             }
         }
+        return answer;
     }
-
 };
 
 

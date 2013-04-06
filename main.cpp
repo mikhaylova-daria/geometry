@@ -8,14 +8,16 @@ int main()
     Point c;
     cout<< "Координаты точки a через пробел: ";
     cin>>a;
-   /* b = a;
+    cout<< "Координаты точки a через пробел: ";
+    cin>>b;
+   /*b = a;
     cout<<"a = "<<a<<" b = "<<b<<"\n";
     Point<double> c = a + b;
     cout <<"c = a + b = "<< c <<"\n";
     double dist = c.distance(b);
     cout<<"distance between c and b: " <<dist<<"\n";
     double lengt = a.length();
-    cout << "length vector a: " << lengt<<"\n";*/
+    cout << "length vector a: " << lengt<<"\n";
     cout<< "Координаты точки c через пробел: ";
     cin>>c;
     Segment seg1(a, c);
@@ -48,7 +50,18 @@ int main()
             cout<<inter_1[i]<<" ";
         }
         cout<<"\n";
+    }*/
+    int n;
+    cout<<"введите количество вершин многоугольника: ";
+    cin>>n;
+    vector <Point> pl;
+    for (int i = 0; i < n; ++i) {
+        Point x;
+        cin>>x;
+        pl.push_back(x);
     }
+    Poly pl_1(pl);
+    cout<<"точка"<<a<<":"<<pl_1.has_point(a)<<" \nточка "<<b<< ":"<<pl_1.has_point(b);
 
     return 0;
 }
