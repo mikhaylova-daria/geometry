@@ -113,23 +113,26 @@ double Segment::length(void) {
     return answer;
 }
 
-/*
+
 //   не работает с приближениями :(
 bool Segment::has_point(Point &pnt) {
+    if ((pnt == this->p1) || (pnt == this->p2)) {
+        return true;
+    }
      Point a = p2 - p1;      // перенос в начало координат, получаем радиус-вектор (единичный направляющий)
      Point b = pnt - p1;     //перенос в начало координат, получаем радиус-вектор (единичный направляющий)
      double scalar_pr = a * b;
-     if ((scalar_pr != 0)||(a.x * b.x < 0) || (a.y * b.y < 0)||(a.length() < b.length())) {
+     if ((sqrt(scalar_pr) > 0.0001)||(a.x * b.x < 0) || (a.y * b.y < 0)||(a.length() < b.length())) {
          return false;
      }
      return true;
 }
-*/
+/*
 // через проекции
 bool Segment::has_point (Point &pnt) {
     Straight str;
-    build_of_straight (this->p1, this->p2, &str);
-    if (str.a * pnt.x + str.b * pnt.y + c > 0,0001) {
+    build_of_straight (this->p1, this->p2, str);
+    if (abs(str.a * pnt.x + str.b * pnt.y + str.c) > 0,0001) {
         return false;
     }
     if (((pnt.x <= this->p1.x) && (pnt.x >= this->p2.x)) || ((pnt.x >= this->p1.x) && (pnt.x <= this->p2.x))) {
@@ -143,7 +146,7 @@ bool Segment::has_point (Point &pnt) {
     }
 }
 
-
+*/
 // алгоритм подсмотрен : http://teormech.blogspot.ru/2011/07/blog-post.html
 
 bool Segment::intersects( Segment &sgm) {
