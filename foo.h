@@ -114,7 +114,7 @@ double Segment::length(void) {
 }
 
 
-//   не работает с приближениями :(
+//   Принадлежность точки отрезку
 bool Segment::has_point(Point &pnt) {
     if ((pnt == this->p1) || (pnt == this->p2)) {
         return true;

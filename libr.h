@@ -197,6 +197,7 @@ public :
     ~Poly(){;}
 
     virtual bool has_point(Point &pnt) {
+
         int count_inter = 0;
         int size = vertex.size();
         for (int i = 0; i < size; ++i) {
@@ -220,6 +221,9 @@ public :
             }
 
             Segment sgm(vertex[i], vertex[j]);
+            if (sgm.has_point(pnt)) {
+                return true;
+            }
             Point pnt_inf (pnt.x + abs(max) + 1, pnt.y); // луч по положительному горизонтальному напрвлению бесконечность - точка, находящаяся заведомо правее ребра
             Segment ray (pnt, pnt_inf);
             std::vector<Point> inter = ray.intersection(sgm); // пересекли луч с ребром
