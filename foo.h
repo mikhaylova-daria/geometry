@@ -127,6 +127,11 @@ bool Segment::has_point(Point &pnt) {
 */
 // через проекции
 bool Segment::has_point (Point &pnt) {
+    Straight str;
+    build_of_straight (this->p1, this->p2, &str);
+    if (str.a * pnt.x + str.b * pnt.y + c > 0,0001) {
+        return false;
+    }
     if (((pnt.x <= this->p1.x) && (pnt.x >= this->p2.x)) || ((pnt.x >= this->p1.x) && (pnt.x <= this->p2.x))) {
             if (((pnt.y <= this->p1.y) && (pnt.y >= this->p2.y)) || ((pnt.y >= this->p1.y) && (pnt.y <= this->p2.y))) {
                 return true;
