@@ -13,25 +13,25 @@ Point::Point(const Point &fpoint): x(fpoint.x), y(fpoint.y) {;}
 Point::Point(const double & _x, const double & _y):x(_x), y(_y) {;}
 
 
-Point Point::operator + (const Point &a) {
+Point Point::operator + (const Point &a) const{
     Point b(x + a.x, y + a.y);
     return b;
 }
 
 
-Point Point::operator - (const Point &a){
+Point Point::operator - (const Point &a)const{
     Point b (x - a.x, y - a.y);
     return b;
 }
 
-// перпендикулярное скалярное произведение
+// перпендикулярное скалярное произведение (векторное произведение)
 
-double Point::operator * (const Point &a) {
+double Point::operator * (const Point &a) const{
     return (this->x) * a.y - a.x * (this->y);
 }
 
 
-Point Point::operator * (double a) {
+Point Point::operator * (double a) const{
     Point answer;
     answer.x = (this->x) * a;
     answer.y = (this->y)*a;
@@ -46,26 +46,26 @@ Point& Point::operator = (const Point& other) {
 }
 
 
-bool Point::operator == (const Point &other) {
+bool Point::operator == (const Point &other) const{
     bool answer = ((x == other.x)&&(y == other.y));
     return answer;
 }
 
 
-bool Point::operator != (const Point &other) {
+bool Point::operator != (const Point &other)const {
     bool answer = !(*this==other);
     return answer;
 }
 
 
-double Point::distance(const Point &a){
+double Point::distance(const Point &a)const{
     double _distance;
     _distance = sqrt((this->x - a.x) * (this->x - a.x) + (this->y - a.y) * (this->y - a.y));
     return _distance;
 }
 
 
-double Point::length(){
+double Point::length()const{
     double _length = sqrt(x*x + y*y);
     return _length;
 }
@@ -95,61 +95,42 @@ Segment& Segment::operator=(const Segment& other) {
 }
 
 
-bool Segment::operator == (const Segment &other){
+bool Segment::operator == (const Segment &other)const{
     bool answer = ((p1==other.p1)&&(p2==other.p2));
     return answer;
 }
 
 
-bool Segment::operator!=(const Segment &other) {
+bool Segment::operator!=(const Segment &other) const{
     bool answer = !(*this==other);
     return answer;
 }
 
 
 
-double Segment::length(void) {
+double Segment::length(void)const {
     double answer = sqrt((p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y)*(p1.y-p2.y));
     return answer;
 }
 
 
 //   Принадлежность точки отрезку
-bool Segment::has_point(Point &pnt) {
+bool Segment::has_point( const Point &pnt)const {
     if ((pnt == this->p1) || (pnt == this->p2)) {
         return true;
     }
      Point a = p2 - p1;      // перенос в начало координат, получаем радиус-вектор (единичный направляющий)
      Point b = pnt - p1;     //перенос в начало координат, получаем радиус-вектор (единичный направляющий)
      double scalar_pr = a * b;
-     if ((sqrt(scalar_pr) > 0.0001)||(a.x * b.x < 0) || (a.y * b.y < 0)||(a.length() < b.length())) {
+     if ((scalar_pr > 0.0001)||(a.x * b.x < 0) || (a.y * b.y < 0)||(a.length() < b.length())) {
          return false;
      }
      return true;
 }
-/*
-// через проекции
-bool Segment::has_point (Point &pnt) {
-    Straight str;
-    build_of_straight (this->p1, this->p2, str);
-    if (abs(str.a * pnt.x + str.b * pnt.y + str.c) > 0,0001) {
-        return false;
-    }
-    if (((pnt.x <= this->p1.x) && (pnt.x >= this->p2.x)) || ((pnt.x >= this->p1.x) && (pnt.x <= this->p2.x))) {
-            if (((pnt.y <= this->p1.y) && (pnt.y >= this->p2.y)) || ((pnt.y >= this->p1.y) && (pnt.y <= this->p2.y))) {
-                return true;
-            } else {
-                return false;
-            }
-    } else {
-        return false;
-    }
-}
 
-*/
 // алгоритм подсмотрен : http://teormech.blogspot.ru/2011/07/blog-post.html
 
-bool Segment::intersects( Segment &sgm) {
+bool Segment::intersects( const Segment &sgm)const {
     Point u (this->p2 - this->p1);
     Point v(sgm.p2 - sgm.p1);
     Point w (this->p1 - sgm.p1);
@@ -183,7 +164,7 @@ bool Segment::intersects( Segment &sgm) {
 //------ПРЯМАЯ - ПОСТРОЕНИЕ ПО ТОЧКАМ
 
 
-bool build_of_straight (Point x1, Point x2, Straight &str)
+bool build_of_straight (const Point& x1, const Point & x2,  Straight &str)
 {
 
     str.b = -1;
@@ -210,7 +191,7 @@ bool build_of_straight (Point x1, Point x2, Straight &str)
 }
 
 
-std::vector< Point> Segment::intersection (Segment sgm) {
+std::vector< Point> Segment::intersection (const Segment & sgm)const {
     std::vector< Point > answer;
     answer.clear();
     Point  u (this->p2 - this->p1);
@@ -258,7 +239,7 @@ std::vector< Point> Segment::intersection (Segment sgm) {
 
 }
 
-// ---------- ОКРУЖНОСТЬ
+
 
 
 #endif // FOO_H

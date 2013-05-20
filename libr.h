@@ -32,19 +32,19 @@ public:
     friend class AFigure;
     friend class Circle;
     friend class Poly;
-    friend bool build_of_straight (Point x1, Point x2, Straight &str);
+    friend bool build_of_straight (const Point &x1,const Point &x2, Straight &str);
         Point();
         Point(const Point &fpoint);
         Point(const double & _x, const double & _y);
-        Point operator + (const Point &);
-        Point operator- (const Point &);
-        double operator * (const Point &);   //скалярное произведение радиус-векторов
-        Point operator * (double); // растяжение радиус - вектора
-        Point& operator= (const Point&);
-        bool operator== (const Point &);
-        bool operator!=(const Point &);
-        double distance(const Point&);
-        double length();        // длина радиус-вектора
+        Point operator + (const Point &) const;
+        Point operator- (const Point &) const;
+        double operator * (const Point &) const ;   //скалярное произведение радиус-векторов
+        Point operator * (double)const ; // растяжение радиус - вектора
+        Point& operator= (const Point& );
+        bool operator== (const Point &)const;
+        bool operator!=(const Point &)const;
+        double distance(const Point&)const;
+        double length()const;        // длина радиус-вектора
 
         friend std::ostream& operator<<(std::ostream& stream, const Point& pnt){
             stream<<"("<<pnt.x<<"; "<<pnt.y<<")";
@@ -71,12 +71,12 @@ class Segment{
         Segment(const Segment &);
         Segment(const Point &pnt1,const Point &pnt2);
         Segment& operator=(const Segment& other);
-        bool operator==(const Segment &other);
-        bool operator!=(const Segment &other);
-        double length(void);
-        bool has_point(Point &pnt);
-        bool intersects( Segment &sgm); //есть ли пересечение
-        std::vector< Point > intersection (Segment arg);
+        bool operator==(const Segment &other)const;
+        bool operator!=(const Segment &other)const;
+        double length(void)const;
+        bool has_point(const Point &pnt)const;
+        bool intersects(const Segment &sgm)const; //есть ли пересечение
+        std::vector< Point > intersection (const Segment &arg)const;
 
         friend std::ostream& operator<<(std::ostream& stream, const Segment& sgm){
             stream<<"["<<sgm.p1<<", "<<sgm.p2<<"]";
@@ -87,11 +87,11 @@ class Segment{
             stream>>sgm.p2;
             return stream;
         }
-        friend bool build_of_straight (Point x1, Point x2, Straight &str);
+        friend bool build_of_straight (const Point &x1,const Point & x2, Straight &str);
 };
 
 
-bool build_of_straight (Point , Point , Straight &);
+bool build_of_straight (const Point & ,const Point &, Straight &);
 
 
 class AFigure{
